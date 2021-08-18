@@ -89,6 +89,18 @@ const createFilterTemplate = () => (
           >Archive <span class="filter__archive-count">115</span></label
         >
       </section>`
+);
+
+const createBoardTemplate = () => (
+  ` <section class="board container">
+        <div class="board__sort-list">
+          <a href="#" class="board__sort-item">SORT BY DEFAULT</a>
+          <a href="#" class="board__sort-item">SORT BY DATE up</a>
+          <a href="#" class="board__sort-item">SORT BY DATE down</a>
+        </div>
+
+        <div class="board__tasks"></div>
+  </section>`
 )
 
 const render = (container, template, place = 'beforeEnd') => {
@@ -100,3 +112,4 @@ const siteHeaderElement = siteMainElement.querySelector('.main__control');
 
 render(siteHeaderElement, createSiteMenuTemplate());
 render(siteMainElement, createFilterTemplate());
+render(siteMainElement, createBoardTemplate());
