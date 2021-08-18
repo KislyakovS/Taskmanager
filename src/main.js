@@ -348,6 +348,10 @@ const createTaskTemplate = () => (
   </article>`
 );
 
+const createLoadMoreButtonTemplate = () => (
+  `<button class="load-more" type="button">load more</button>`
+);
+
 const render = (container, template, place = 'beforeEnd') => {
   container.insertAdjacentHTML(place, template);
 }
@@ -369,3 +373,5 @@ render(taskListElement, createTaskEditTemplate());
 for (let i = 0; i < TASK_COUNT; i++) {
   render(taskListElement, createTaskTemplate());
 }
+
+render(boardElement, createLoadMoreButtonTemplate());
