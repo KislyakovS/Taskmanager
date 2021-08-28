@@ -5,6 +5,8 @@ import { createTaskEditTemplate } from './components/task-editor';
 import { createTaskTemplate } from './components/task';
 import { createLoadMoreButtonTemplate } from './components/load-mode-button';
 
+import { generateTask, generateTasks } from './mock/task';
+
 import { render } from './utils';
 
 const TASK_COUNT = 5;
@@ -19,10 +21,8 @@ render(siteMainElement, createBoardTemplate());
 const boardElement = siteMainElement.querySelector('.board');
 const taskListElement = boardElement.querySelector('.board__tasks');
 
-render(taskListElement, createTaskEditTemplate());
+render(taskListElement, createTaskEditTemplate(generateTask()));
 
-for (let i = 0; i < TASK_COUNT; i++) {
-  render(taskListElement, createTaskTemplate());
-}
+generateTasks(TASK_COUNT).forEach(task => render(taskListElement, createTaskTemplate(task)))
 
 render(boardElement, createLoadMoreButtonTemplate());
