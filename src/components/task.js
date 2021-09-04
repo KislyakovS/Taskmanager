@@ -1,21 +1,23 @@
+import { createElement } from '../utils';
+
 import { MONTH_NAMES } from '../const';
 
 const createTaskTemplate = (task) => {
-  const { text, dueDate, repeatingDays, color, isArchive, isFavorite } = task;
+    const { text, dueDate, repeatingDays, color, isArchive, isFavorite } = task;
 
-  const isRepeat = Object.values(repeatingDays).some(Boolean);
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShow = !!dueDate;
+    const isRepeat = Object.values(repeatingDays).some(Boolean);
+    const isExpired = dueDate instanceof Date && dueDate < Date.now();
+    const isDateShow = !!dueDate;
 
-  const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
-  const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
+    const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
+    const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
 
-  const classRepeat = isRepeat ? "card--repeat" : false;
-  const classDeadline = isExpired ? "card--deadline" : "";
-  const classArchiveBtnInactive = isArchive ? "" : "card__btn--disabled";
-  const classFavoriteBtnInactive = isFavorite ? "" : "card__btn--disabled";
+    const classRepeat = isRepeat ? "card--repeat" : false;
+    const classDeadline = isExpired ? "card--deadline" : "";
+    const classArchiveBtnInactive = isArchive ? "" : "card__btn--disabled";
+    const classFavoriteBtnInactive = isFavorite ? "" : "card__btn--disabled";
 
-  return (`<article class="card card--${color} ${classRepeat} ${classDeadline}">
+    return (`<article class="card card--${color} ${classRepeat} ${classDeadline}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
@@ -44,7 +46,7 @@ const createTaskTemplate = (task) => {
         </div>
 
         ${isDateShow ?
-      `
+            `
         <div class="card__settings">
           <div class="card__details">
             <div class="card__dates">
@@ -58,12 +60,36 @@ const createTaskTemplate = (task) => {
           </div>
         </div>
         `
-      : ''}
+            : ''}
       </div>
     </div>
   </article>`)
 }
 
+class Task {
+    constructor(task) {
+        this._task = task;
+
+        this._element = null;
+    }
+
+    get _template() {
+        return createTaskTemplate(this._task);
+    }
+
+    get element() {
+        if (!this._element) {
+            this._element = createElement(this._template);
+        }
+
+        return this._element;
+    }
+
+    removeElement() {
+        this._element = null;
+    }
+}
+
 export {
-  createTaskTemplate
+    Task
 }
