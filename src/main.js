@@ -1,28 +1,35 @@
-import { createSiteMenuTemplate } from './components/site-menu';
-import { createFilterTemplate } from './components/filter';
-import { createBoardTemplate } from './components/board';
-import { createTaskEditTemplate } from './components/task-editor';
-import { createTaskTemplate } from './components/task';
-import { createLoadMoreButtonTemplate } from './components/load-mode-button';
+import { SiteMenu } from './components/site-menu';
+import { Filter } from './components/filter';
+import { Board } from './components/board';
+import { TaskEditor } from './components/task-editor';
+import { Task } from './components/task';
+import { LoadMoreButton } from './components/load-more-button';
 
 import { generateTask, generateTasks } from './mock/task';
+import { filterMock } from './mock/filter';
 
-import { render } from './utils';
+import { renderElement } from './utils';
 
 const TASK_COUNT = 5;
+
+
+const renderBoard = () => {
+    const boardElement = document.querySelector('.board');
+    const taskListElement = boardElement.querySelector('.board__tasks');
+
+    const tasks = generateTasks(TASK_COUNT);
+    const editTasks = generateTask();
+
+    renderElement(taskListElement, new TaskEditor(editTasks).element);
+    tasks.forEach(task => renderElement(taskListElement, new Task(task).element));
+    renderElement(boardElement, new LoadMoreButton().element);
+}
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = siteMainElement.querySelector('.main__control');
 
-render(siteHeaderElement, createSiteMenuTemplate());
-render(siteMainElement, createFilterTemplate());
-render(siteMainElement, createBoardTemplate());
+renderElement(siteHeaderElement, new SiteMenu().element);
+renderElement(siteMainElement, new Filter(filterMock).element);
+renderElement(siteMainElement, new Board().element);
 
-const boardElement = siteMainElement.querySelector('.board');
-const taskListElement = boardElement.querySelector('.board__tasks');
-
-render(taskListElement, createTaskEditTemplate(generateTask()));
-
-generateTasks(TASK_COUNT).forEach(task => render(taskListElement, createTaskTemplate(task)))
-
-render(boardElement, createLoadMoreButtonTemplate());
+renderBoard();
