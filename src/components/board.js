@@ -1,3 +1,5 @@
+import { createElement } from '../utils';
+
 const createBoardTemplate = () => (
     ` <section class="board container">
         <div class="board__sort-list">
@@ -10,6 +12,28 @@ const createBoardTemplate = () => (
   </section>`
 );
 
+class Board {
+    constructor() {
+        this._element = null;
+    }
+
+    get _template() {
+        return createBoardTemplate();
+    }
+
+    get element() {
+        if (!this._element) {
+            this._element = createElement(this._template);
+        }
+
+        return this._element;
+    }
+
+    removeElement() {
+        this._element = null;
+    }
+}
+
 export {
-    createBoardTemplate
+    Board
 }
