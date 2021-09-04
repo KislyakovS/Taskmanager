@@ -1,8 +1,10 @@
-const render = (container, template, place = 'beforeEnd') => {
+import { POSITION_INSERT } from './const';
+
+const render = (container, template, place = POSITION_INSERT.BEFOREEND) => {
     container.insertAdjacentHTML(place, template);
 }
 
-const renderElement = (container, element, place = 'beforeEnd') => {
+const renderElement = (container, element, place = POSITION_INSERT.BEFOREEND) => {
     container.insertAdjacentElement(place, element);
 }
 

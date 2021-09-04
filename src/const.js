@@ -1,3 +1,7 @@
+const POSITION_INSERT = {
+    BEFOREEND: 'beforeEnd',
+}
+
 const MONTH_NAMES = [
     "January",
     "February",
@@ -16,6 +20,7 @@ const MONTH_NAMES = [
 const COLORS = ["black", "yellow", "blue", "green", "pink"];
 
 export {
+    POSITION_INSERT,
     MONTH_NAMES,
     COLORS
 }
