@@ -1,7 +1,9 @@
+import { createElement } from '../utils';
+
 import { MONTH_NAMES, COLORS } from '../const';
 
 const createColorMarkup = (name, isChecked) => {
-  return (`
+    return (`
               <input
                 type="radio"
                 id="color-${name}-4"
@@ -19,7 +21,7 @@ const createColorMarkup = (name, isChecked) => {
 }
 
 const createDayMarkup = (name, isChecked) => {
-  return (`
+    return (`
     <input
       class="visually-hidden card__repeat-day-input"
       type="checkbox"
@@ -35,22 +37,22 @@ const createDayMarkup = (name, isChecked) => {
 }
 
 const createTaskEditTemplate = (task) => {
-  const { text, dueDate, repeatingDays, color } = task;
+    const { text, dueDate, repeatingDays, color } = task;
 
-  const isRepeat = Object.values(repeatingDays).some(Boolean);
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShow = !!dueDate;
+    const isRepeat = Object.values(repeatingDays).some(Boolean);
+    const isExpired = dueDate instanceof Date && dueDate < Date.now();
+    const isDateShow = !!dueDate;
 
-  const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
-  const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
+    const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
+    const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
 
-  const classRepeat = "card--repeat";
-  const classDeadline = isExpired ? "card--deadline" : "";
+    const classRepeat = "card--repeat";
+    const classDeadline = isExpired ? "card--deadline" : "";
 
-  const colorsMarkup = COLORS.map((item) => createColorMarkup(item, item === color)).join("");
-  const weekMarkup = Object.entries(repeatingDays).map(([name, value]) => createDayMarkup(name, value)).join("");
+    const colorsMarkup = COLORS.map((item) => createColorMarkup(item, item === color)).join("");
+    const weekMarkup = Object.entries(repeatingDays).map(([name, value]) => createDayMarkup(name, value)).join("");
 
-  return (`<article class="card card--edit card--${color} ${classRepeat} ${classDeadline}">
+    return (`<article class="card card--edit card--${color} ${classRepeat} ${classDeadline}">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__color-bar">
@@ -117,6 +119,30 @@ const createTaskEditTemplate = (task) => {
   </article>`);
 }
 
+class TaskEditor {
+    constructor(task) {
+        this._task = task;
+
+        this._element = null;
+    }
+
+    get _template() {
+        return createTaskEditTemplate(this._task);
+    }
+
+    get element() {
+        if (!this._element) {
+            this._element = createElement(this._template);
+        }
+
+        return this._element;
+    }
+
+    removeElement() {
+        this._element = null;
+    }
+}
+
 export {
-  createTaskEditTemplate
+    TaskEditor
 }
