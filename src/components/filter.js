@@ -1,9 +1,9 @@
-import { filterMock } from '../mock/filter';
+import { createElement } from '../utils';
 
 const createFilterMarkup = (filter, isChecked) => {
-  const { name, count } = filter;
+    const { name, count } = filter;
 
-  return `
+    return `
       <input
           type="radio"
           id="filter__${name}"
@@ -17,16 +17,34 @@ const createFilterMarkup = (filter, isChecked) => {
   `
 }
 
-const createFilterTemplate = () => {
-  const filters = filterMock.map((item, i) => createFilterMarkup(item, i === 0)).join('');
+const createFilterTemplate = (filters) => {
+    const filtersTemplate = filters.map((item, i) => createFilterMarkup(item, i === 0)).join('');
 
-  return (
-    `<section class="main__filter filter container">
-      ${filters}
-    </section>`
-  );
+    return (
+        `<section class="main__filter filter container">${filtersTemplate}</section>`
+    );
 };
 
+class Filter {
+    constructor(filters) {
+        this._filters = filters;
+
+        this._element = null;
+    }
+
+    get _template() {
+        return createFilterTemplate(this._filters);
+    }
+
+    get element() {
+        if (!this._element) {
+            this._element = createElement(this._template);
+        }
+
+        return this._element;
+    }
+}
+
 export {
-  createFilterTemplate
+    Filter
 }
