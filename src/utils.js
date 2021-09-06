@@ -1,9 +1,5 @@
 import { POSITION_INSERT } from './const';
 
-const render = (container, template, place = POSITION_INSERT.BEFOREEND) => {
-    container.insertAdjacentHTML(place, template);
-}
-
 const renderComponent = (container, component, place = POSITION_INSERT.BEFOREEND) => {
     container.insertAdjacentElement(place, component.element);
 }
@@ -32,7 +28,6 @@ const removeComponent = (component) => {
 }
 
 export {
-    render,
     replaceComponent,
     removeComponent,
     renderComponent,
