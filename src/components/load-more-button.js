@@ -1,28 +1,12 @@
-import { createElement } from '../utils';
+import { Component } from './component';
 
 const createLoadMoreButtonTemplate = () => (
     `<button class="load-more" type="button">load more</button>`
 );
 
-class LoadMoreButton {
-    constructor() {
-        this._element = null;
-    }
-
+class LoadMoreButton extends Component {
     get _template() {
         return createLoadMoreButtonTemplate();
-    }
-
-    get element() {
-        if (!this._element) {
-            this._element = createElement(this._template);
-        }
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }
 

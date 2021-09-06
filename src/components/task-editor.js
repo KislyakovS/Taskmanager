@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import { Component } from './component';
 
 import { MONTH_NAMES, COLORS } from '../const';
 
@@ -119,27 +119,15 @@ const createTaskEditTemplate = (task) => {
   </article>`);
 }
 
-class TaskEditor {
+class TaskEditor extends Component {
     constructor(task) {
-        this._task = task;
+        super();
 
-        this._element = null;
+        this._task = task;
     }
 
     get _template() {
         return createTaskEditTemplate(this._task);
-    }
-
-    get element() {
-        if (!this._element) {
-            this._element = createElement(this._template);
-        }
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }
 

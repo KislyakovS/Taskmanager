@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import { Component } from './component';
 
 const createFilterMarkup = (filter, isChecked) => {
     const { name, count } = filter;
@@ -25,27 +25,14 @@ const createFilterTemplate = (filters) => {
     );
 };
 
-class Filter {
+class Filter extends Component {
     constructor(filters) {
+        super();
         this._filters = filters;
-
-        this._element = null;
     }
 
     get _template() {
         return createFilterTemplate(this._filters);
-    }
-
-    get element() {
-        if (!this._element) {
-            this._element = createElement(this._template);
-        }
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }
 

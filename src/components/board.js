@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import { Component } from './component';
 
 const createBoardTemplate = () => (
     ` <section class="board container">
@@ -12,25 +12,9 @@ const createBoardTemplate = () => (
   </section>`
 );
 
-class Board {
-    constructor() {
-        this._element = null;
-    }
-
+class Board extends Component {
     get _template() {
         return createBoardTemplate();
-    }
-
-    get element() {
-        if (!this._element) {
-            this._element = createElement(this._template);
-        }
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }
 

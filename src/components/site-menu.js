@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import { Component } from './component';
 
 const createSiteMenuTemplate = () => (
     `<section class="control__btn-wrap">
@@ -31,25 +31,9 @@ const createSiteMenuTemplate = () => (
   </section>`
 );
 
-class SiteMenu {
-    constructor() {
-        this._element = null;
-    }
-
+class SiteMenu extends Component {
     get _template() {
         return createSiteMenuTemplate();
-    }
-
-    get element() {
-        if (!this._element) {
-            this._element = createElement(this._template);
-        }
-
-        return this._element;
-    }
-
-    removeElement() {
-        this._element = null;
     }
 }
 
