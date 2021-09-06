@@ -8,6 +8,10 @@ class LoadMoreButton extends Component {
     get _template() {
         return createLoadMoreButtonTemplate();
     }
+
+    setClickHandler(handler) {
+        this.element.addEventListener('click', handler);
+    }
 }
 
 export {

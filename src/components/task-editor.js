@@ -129,6 +129,10 @@ class TaskEditor extends Component {
     get _template() {
         return createTaskEditTemplate(this._task);
     }
+
+    setSubmitFormHandler(handler) {
+        this.element.querySelector('form').addEventListener('submit', handler);
+    }
 }
 
 export {

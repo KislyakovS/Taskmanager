@@ -76,6 +76,10 @@ class Task extends Component {
     get _template() {
         return createTaskTemplate(this._task);
     }
+
+    setEditButtonClickHandler(handler) {
+        this.element.querySelector('.card__btn--edit').addEventListener('click', handler);
+    }
 }
 
 export {
