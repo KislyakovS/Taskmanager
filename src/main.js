@@ -8,7 +8,7 @@ import { LoadMoreButton } from './components/load-more-button';
 import { generateTask, generateTasks } from './mock/task';
 import { filterMock } from './mock/filter';
 
-import { renderElement } from './utils';
+import { renderComponent } from './utils';
 
 const TASK_COUNT = 5;
 
@@ -20,16 +20,16 @@ const renderBoard = () => {
     const tasks = generateTasks(TASK_COUNT);
     const editTasks = generateTask();
 
-    renderElement(taskListElement, new TaskEditor(editTasks).element);
-    tasks.forEach(task => renderElement(taskListElement, new Task(task).element));
-    renderElement(boardElement, new LoadMoreButton().element);
+    renderComponent(taskListElement, new TaskEditor(editTasks));
+    tasks.forEach(task => renderComponent(taskListElement, new Task(task)));
+    renderComponent(boardElement, new LoadMoreButton());
 }
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = siteMainElement.querySelector('.main__control');
 
-renderElement(siteHeaderElement, new SiteMenu().element);
-renderElement(siteMainElement, new Filter(filterMock).element);
-renderElement(siteMainElement, new Board().element);
+renderComponent(siteHeaderElement, new SiteMenu());
+renderComponent(siteMainElement, new Filter(filterMock));
+renderComponent(siteMainElement, new Board());
 
 renderBoard();

@@ -4,8 +4,8 @@ const render = (container, template, place = POSITION_INSERT.BEFOREEND) => {
     container.insertAdjacentHTML(place, template);
 }
 
-const renderElement = (container, element, place = POSITION_INSERT.BEFOREEND) => {
-    container.insertAdjacentElement(place, element);
+const renderComponent = (container, component, place = POSITION_INSERT.BEFOREEND) => {
+    container.insertAdjacentElement(place, component.element);
 }
 
 const createElement = (template) => {
@@ -27,6 +27,6 @@ export {
     render,
     replace,
     remove,
-    renderElement,
+    renderComponent,
     createElement
 }
