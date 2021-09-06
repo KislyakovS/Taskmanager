@@ -1,3 +1,5 @@
+import { createElement } from '../utils';
+
 class Component {
     constructor() {
         if (this.target === Component) {
