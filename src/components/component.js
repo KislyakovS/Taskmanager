@@ -10,7 +10,7 @@ class Component {
     }
 
     get _template() {
-        throw new Error('We need to implement the _template property.');
+        throw new Error('We need to implement the _template get property.');
     }
 
     get element() {
