@@ -19,14 +19,15 @@ const replace = (parent, newElement, oldElement) => {
     parent.replaceChild(newElement, oldElement);
 }
 
-const remove = (element) => {
-    element.remove();
+const removeComponent = (component) => {
+    component.element.remove();
+    component.removeElement();
 }
 
 export {
     render,
     replace,
-    remove,
+    removeComponent,
     renderComponent,
     createElement
 }
