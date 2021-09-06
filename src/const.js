@@ -1,5 +1,6 @@
 const POSITION_INSERT = {
     BEFOREEND: 'beforeEnd',
+    AFTERBEGIN: 'afterbegin',
 }
 
 const MONTH_NAMES = [
