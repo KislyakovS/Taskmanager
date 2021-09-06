@@ -15,8 +15,13 @@ const createElement = (template) => {
     return element;
 }
 
+const replace = (parent, newElement, oldElement) => {
+    parent.replaceChild(newElement, oldElement);
+}
+
 export {
     render,
+    replace,
     renderElement,
     createElement
 }
