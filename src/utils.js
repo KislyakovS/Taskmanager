@@ -15,8 +15,15 @@ const createElement = (template) => {
     return element;
 }
 
-const replace = (parent, newElement, oldElement) => {
-    parent.replaceChild(newElement, oldElement);
+const replaceComponent = (newComponent, oldComponent) => {
+    const newElement = newComponent.element;
+    const oldElement = oldComponent.element;
+
+    const parentElement = oldElement.parentElement;
+
+    if (parentElement && newElement && oldElement) {
+        parentElement.replaceChild(newElement, oldElement);
+    }
 }
 
 const removeComponent = (component) => {
@@ -26,7 +33,7 @@ const removeComponent = (component) => {
 
 export {
     render,
-    replace,
+    replaceComponent,
     removeComponent,
     renderComponent,
     createElement
