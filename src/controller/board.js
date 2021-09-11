@@ -16,7 +16,7 @@ class BoardController {
         this._loadMoreComponent = new LoadMoreButton();
 
         this._tasks = [];
-        this._taskContainers = [];
+        this._taskControllers = [];
 
         this._onSortTypeChange = this._onSortTypeChange.bind(this);
     }
@@ -40,7 +40,7 @@ class BoardController {
     _renderTasksList() {
         const taskListElement = this._container.querySelector('.board__tasks');
 
-        this._taskContainers = this._tasks.map(task => {
+        this._taskControllers = this._tasks.map(task => {
             const taskController = new TaskController(taskListElement);
 
             taskController.render(task);
