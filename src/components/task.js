@@ -80,6 +80,14 @@ class Task extends Component {
     setEditButtonClickHandler(handler) {
         this.element.querySelector('.card__btn--edit').addEventListener('click', handler);
     }
+
+    setFavoritesButtonClickHandler(handler) {
+        this.element.querySelector('.card__btn--favorites').addEventListener('click', handler);
+    }
+
+    setArchiveButtonClickHandler(handler) {
+        this.element.querySelector('.card__btn--archive').addEventListener('click', handler);
+    }
 }
 
 export {
