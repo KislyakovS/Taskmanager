@@ -19,6 +19,7 @@ class BoardController {
         this._taskControllers = [];
 
         this._onSortTypeChange = this._onSortTypeChange.bind(this);
+        this._onDataChange = this._onDataChange.bind(this);
         this._onViewChange = this._onViewChange.bind(this);
     }
 
@@ -42,7 +43,7 @@ class BoardController {
         const taskListElement = this._container.querySelector('.board__tasks');
 
         this._taskControllers = this._tasks.map(task => {
-            const taskController = new TaskController(taskListElement, this._onViewChange);
+            const taskController = new TaskController(taskListElement, this._onDataChange, this._onViewChange);
 
             taskController.render(task);
 
@@ -56,6 +57,18 @@ class BoardController {
 
     _onSortTypeChange(sortType) {
         const sortTasks = SortedTasks.sort(sortType, this._tasks);
+    }
+
+    _onDataChange(controller, newDate, oldDate) {
+        const index = this._tasks.findIndex(task => task === oldDate);
+
+        if (index === -1) {
+            return
+        }
+
+        this._tasks = [].concat(this._tasks.slice(0, index), newDate, this._tasks.slice(index + 1));
+
+        controller.rerender();
     }
 
     _onViewChange() {

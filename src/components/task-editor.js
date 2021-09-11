@@ -1,4 +1,4 @@
-import { Component } from './component';
+import { SmartComponent } from './smart-component';
 
 import { MONTH_NAMES, COLORS } from '../const';
 
@@ -37,16 +37,14 @@ const createDayMarkup = (name, isChecked) => {
 }
 
 const createTaskEditTemplate = (task) => {
-    const { text, dueDate, repeatingDays, color } = task;
+    const { text, dueDate, repeatingDays, color, isRepeat, isDate } = task;
 
-    const isRepeat = Object.values(repeatingDays).some(Boolean);
     const isExpired = dueDate instanceof Date && dueDate < Date.now();
-    const isDateShow = !!dueDate;
 
-    const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
-    const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
+    const date = isDate ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
+    const time = isDate ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
 
-    const classRepeat = "card--repeat";
+    const classRepeat = isRepeat ? "card--repeat" : "";
     const classDeadline = isExpired ? "card--deadline" : "";
 
     const colorsMarkup = COLORS.map((item) => createColorMarkup(item, item === color)).join("");
@@ -75,9 +73,9 @@ const createTaskEditTemplate = (task) => {
           <div class="card__details">
             <div class="card__dates">
               <button class="card__date-deadline-toggle" type="button">
-                date: <span class="card__date-status">${isDateShow ? 'yes' : 'no'}</span>
+                date: <span class="card__date-status">${isDate ? 'yes' : 'no'}</span>
               </button>
-              ${isDateShow ? `
+              ${isDate ? `
               <fieldset class="card__date-deadline">
                 <label class="card__input-deadline-wrap">
                   <input
@@ -94,11 +92,13 @@ const createTaskEditTemplate = (task) => {
                 repeat:<span class="card__repeat-status">${isRepeat ? "yes" : "no"}</span>
               </button>
 
-              <fieldset class="card__repeat-days">
-                <div class="card__repeat-days-inner">
-                  ${weekMarkup}
-                </div>
-              </fieldset>              
+              ${isRepeat ?
+            `<fieldset class="card__repeat-days">
+                    <div class="card__repeat-days-inner">
+                        ${weekMarkup}
+                    </div>
+                </fieldset>` : ''
+        }           
             </div>
           </div>
 
@@ -119,19 +119,46 @@ const createTaskEditTemplate = (task) => {
   </article>`);
 }
 
-class TaskEditor extends Component {
+class TaskEditor extends SmartComponent {
     constructor(task) {
         super();
 
         this._task = task;
+
+        this._submitFormHandler = null;
+        this._toggleDateHandler = null;
+        this._toggleRepeatHandler = null;
     }
 
     get _template() {
         return createTaskEditTemplate(this._task);
     }
 
+    _removeEvents() {
+        this.element.querySelector('form').removeEventListener('submit', this._submitFormHandler);
+        this.element.querySelector('.card__date-deadline-toggle').removeEventListener('click', this._toggleDateHandler);
+        this.element.querySelector('.card__repeat-toggle').removeEventListener('click', this._toggleRepeatHandler);
+    }
+
+    _setEvents() {
+        this.element.querySelector('form').addEventListener('submit', this._submitFormHandler);
+        this.element.querySelector('.card__date-deadline-toggle').addEventListener('click', this._toggleDateHandler);
+        this.element.querySelector('.card__repeat-toggle').addEventListener('click', this._toggleRepeatHandler);
+    }
+
     setSubmitFormHandler(handler) {
+        this._submitFormHandler = handler;
         this.element.querySelector('form').addEventListener('submit', handler);
+    }
+
+    setClickToggleDateHandler(handler) {
+        this._toggleDateHandler = handler;
+        this.element.querySelector('.card__date-deadline-toggle').addEventListener('click', handler);
+    }
+
+    setClickToggleRepeatHandler(handler) {
+        this._toggleRepeatHandler = handler;
+        this.element.querySelector('.card__repeat-toggle').addEventListener('click', handler);
     }
 }
 
