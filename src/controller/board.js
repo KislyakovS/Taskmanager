@@ -1,6 +1,7 @@
 import { Sort, SortedTasks } from '../components/sort';
-import { Task } from '../components/task';
 import { LoadMoreButton } from '../components/load-more-button';
+
+import { TaskController } from './task';
 
 import { renderComponent } from '../utils';
 
@@ -15,13 +16,16 @@ class BoardController {
         this._loadMoreComponent = new LoadMoreButton();
 
         this._tasks = [];
+        this._taskContainers = [];
+
+        this._onSortTypeChange = this._onSortTypeChange.bind(this);
     }
 
     render(tasks) {
         this._tasks = tasks;
 
         this._renderControl();
-        this._renderTasksList(tasks);
+        this._renderTasksList();
 
         this._setEvents();
     }
@@ -33,16 +37,24 @@ class BoardController {
         renderComponent(boardElement, this._loadMoreComponent);
     }
 
-    _renderTasksList(tasks) {
+    _renderTasksList() {
         const taskListElement = this._container.querySelector('.board__tasks');
 
-        tasks.forEach(task => renderComponent(taskListElement, new Task(task)));
+        this._taskContainers = this._tasks.map(task => {
+            const taskController = new TaskController(taskListElement);
+
+            taskController.render(task);
+
+            return taskController;
+        })
     }
 
     _setEvents() {
-        this._sortComponent.setSortTypeChangeHandler((sortType) => {
-            const sortTasks = SortedTasks.sort(sortType, this._tasks);
-        });
+        this._sortComponent.setSortTypeChangeHandler(this._onSortTypeChange);
+    }
+
+    _onSortTypeChange(sortType) {
+        const sortTasks = SortedTasks.sort(sortType, this._tasks);
     }
 }
 
