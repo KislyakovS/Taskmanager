@@ -19,6 +19,7 @@ class BoardController {
         this._taskControllers = [];
 
         this._onSortTypeChange = this._onSortTypeChange.bind(this);
+        this._onViewChange = this._onViewChange.bind(this);
     }
 
     render(tasks) {
@@ -41,12 +42,12 @@ class BoardController {
         const taskListElement = this._container.querySelector('.board__tasks');
 
         this._taskControllers = this._tasks.map(task => {
-            const taskController = new TaskController(taskListElement);
+            const taskController = new TaskController(taskListElement, this._onViewChange);
 
             taskController.render(task);
 
             return taskController;
-        })
+        });
     }
 
     _setEvents() {
@@ -55,6 +56,10 @@ class BoardController {
 
     _onSortTypeChange(sortType) {
         const sortTasks = SortedTasks.sort(sortType, this._tasks);
+    }
+
+    _onViewChange() {
+        this._taskControllers.forEach(task => task.setDefaultView());
     }
 }
 
