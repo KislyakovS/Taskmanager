@@ -4,24 +4,34 @@ const POSITION_INSERT = {
 }
 
 const MONTH_NAMES = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
 ];
 
-const COLORS = ["black", "yellow", "blue", "green", "pink"];
+const COLORS = ['black', 'yellow', 'blue', 'green', 'pink'];
+
+const FILTER_TYPE = {
+    ALL: 'ALL',
+    OVERDUE: 'OVERDUE',
+    TODAY: 'TODAY',
+    FAVORITES: 'FAVORITES',
+    REPEATING: 'REPEATING',
+    ARCHIVE: 'ARCHIVE'
+}
 
 export {
     POSITION_INSERT,
     MONTH_NAMES,
-    COLORS
+    COLORS,
+    FILTER_TYPE
 }
