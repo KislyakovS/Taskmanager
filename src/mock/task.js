@@ -9,6 +9,7 @@ const defaultRepeatingDays = {
 }
 
 const generateTask = () => ({
+    id: `${new Date() + Math.random()}`,
     text: "Example default task with default color.",
     dueDate: new Date(),
     repeatingDays: Object.assign(defaultRepeatingDays, { tu: true }),
