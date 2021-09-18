@@ -1,23 +1,25 @@
+import { encode } from 'he';
+
 import { Component } from './component';
 
 import { MONTH_NAMES } from '../const';
 
 const createTaskTemplate = (task) => {
-    const { text, dueDate, repeatingDays, color, isArchive, isFavorite } = task;
+  const { text, dueDate, repeatingDays, color, isArchive, isFavorite } = task;
 
-    const isRepeat = Object.values(repeatingDays).some(Boolean);
-    const isExpired = dueDate instanceof Date && dueDate < Date.now();
-    const isDateShow = !!dueDate;
+  const isRepeat = Object.values(repeatingDays).some(Boolean);
+  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isDateShow = !!dueDate;
 
-    const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
-    const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
+  const date = isDateShow ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : '';
+  const time = isDateShow ? `${dueDate.getHours()}:${dueDate.getMinutes()}` : '';
 
-    const classRepeat = isRepeat ? "card--repeat" : false;
-    const classDeadline = isExpired ? "card--deadline" : "";
-    const classArchiveBtnInactive = isArchive ? "" : "card__btn--disabled";
-    const classFavoriteBtnInactive = isFavorite ? "" : "card__btn--disabled";
+  const classRepeat = isRepeat ? "card--repeat" : false;
+  const classDeadline = isExpired ? "card--deadline" : "";
+  const classArchiveBtnInactive = isArchive ? "" : "card__btn--disabled";
+  const classFavoriteBtnInactive = isFavorite ? "" : "card__btn--disabled";
 
-    return (`<article class="card card--${color} ${classRepeat} ${classDeadline}">
+  return (`<article class="card card--${color} ${classRepeat} ${classDeadline}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
@@ -42,11 +44,11 @@ const createTaskTemplate = (task) => {
         </div>
 
         <div class="card__textarea-wrap">
-          <p class="card__text">${text}</p>
+          <p class="card__text">${encode(text)}</p>
         </div>
 
         ${isDateShow ?
-            `
+      `
         <div class="card__settings">
           <div class="card__details">
             <div class="card__dates">
@@ -60,36 +62,36 @@ const createTaskTemplate = (task) => {
           </div>
         </div>
         `
-            : ''}
+      : ''}
       </div>
     </div>
   </article>`)
 }
 
 class Task extends Component {
-    constructor(task) {
-        super();
+  constructor(task) {
+    super();
 
-        this._task = task;
-    }
+    this._task = task;
+  }
 
-    get _template() {
-        return createTaskTemplate(this._task);
-    }
+  get _template() {
+    return createTaskTemplate(this._task);
+  }
 
-    setEditButtonClickHandler(handler) {
-        this.element.querySelector('.card__btn--edit').addEventListener('click', handler);
-    }
+  setEditButtonClickHandler(handler) {
+    this.element.querySelector('.card__btn--edit').addEventListener('click', handler);
+  }
 
-    setFavoritesButtonClickHandler(handler) {
-        this.element.querySelector('.card__btn--favorites').addEventListener('click', handler);
-    }
+  setFavoritesButtonClickHandler(handler) {
+    this.element.querySelector('.card__btn--favorites').addEventListener('click', handler);
+  }
 
-    setArchiveButtonClickHandler(handler) {
-        this.element.querySelector('.card__btn--archive').addEventListener('click', handler);
-    }
+  setArchiveButtonClickHandler(handler) {
+    this.element.querySelector('.card__btn--archive').addEventListener('click', handler);
+  }
 }
 
 export {
-    Task
+  Task
 }
