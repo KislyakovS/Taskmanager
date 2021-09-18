@@ -1,4 +1,4 @@
-import { POSITION_INSERT } from './const';
+import { POSITION_INSERT } from '../const';
 
 const renderComponent = (container, component, place = POSITION_INSERT.BEFOREEND) => {
     container.insertAdjacentElement(place, component.element);

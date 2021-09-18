@@ -1,31 +1,33 @@
 import { Sort, SortedTasks } from '../components/sort';
 import { LoadMoreButton } from '../components/load-more-button';
 
-import { TaskController } from './task';
+import { TaskController, Mode as TaskControllerMode, EmptyTask } from './task';
 
 import { renderComponent } from '../utils';
 
 import { POSITION_INSERT } from '../const';
 
 class BoardController {
-    constructor(component) {
+    constructor(component, tasksModel) {
         this._component = component;
+        this._tasksModel = tasksModel;
+
         this._container = this._component.element;
 
         this._sortComponent = new Sort();
         this._loadMoreComponent = new LoadMoreButton();
 
-        this._tasks = [];
         this._taskControllers = [];
 
         this._onSortTypeChange = this._onSortTypeChange.bind(this);
         this._onDataChange = this._onDataChange.bind(this);
         this._onViewChange = this._onViewChange.bind(this);
+
+        this._tasksModel.filterChangeHandler = this._onFilterChange.bind(this);
+        this._tasksModel.dataChangeHandler = this._renderTasksList.bind(this);
     }
 
-    render(tasks) {
-        this._tasks = tasks;
-
+    render() {
         this._renderControl();
         this._renderTasksList();
 
@@ -39,12 +41,16 @@ class BoardController {
         renderComponent(boardElement, this._loadMoreComponent);
     }
 
+    _removeTasksList() {
+        this._taskControllers.forEach(task => task.destroy());
+        this._taskControllers = [];
+    }
+
     _renderTasksList() {
         const taskListElement = this._container.querySelector('.board__tasks');
 
-        this._taskControllers = this._tasks.map(task => {
+        this._taskControllers = this._tasksModel.tasks.map(task => {
             const taskController = new TaskController(taskListElement, this._onDataChange, this._onViewChange);
-
             taskController.render(task);
 
             return taskController;
@@ -56,23 +62,26 @@ class BoardController {
     }
 
     _onSortTypeChange(sortType) {
-        const sortTasks = SortedTasks.sort(sortType, this._tasks);
+        const sortTasks = SortedTasks.sort(sortType, this._tasksModel.tasks);
     }
 
     _onDataChange(controller, newDate, oldDate) {
-        const index = this._tasks.findIndex(task => task === oldDate);
-
-        if (index === -1) {
-            return
+        if (!oldDate && newDate) {
+            this._tasksModel.addTask(newDate);
+        } else if (!newDate) {
+            this._tasksModel.removeTask(oldDate.id);
+        } else {
+            this._tasksModel.updateTask(oldDate.id, newDate);
         }
-
-        this._tasks = [].concat(this._tasks.slice(0, index), newDate, this._tasks.slice(index + 1));
-
-        controller.rerender();
     }
 
     _onViewChange() {
         this._taskControllers.forEach(task => task.setDefaultView());
+    }
+
+    _onFilterChange() {
+        this._removeTasksList();
+        this._renderTasksList();
     }
 }
 

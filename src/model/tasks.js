@@ -31,22 +31,32 @@ class TasksModel {
     updateTask(id, newTask) {
         const index = this._tasks.findIndex(it => it.id === id);
 
-        if (index !== -1) {
-            return false;
+        if (index === -1) {
+            return;
         }
 
-        this._tasks = [].concat(this._tasks.slice(0, index), newTask, this._tasks.slice(index + 1));
+        this._tasks = [...this._tasks.slice(0, index), newTask, ...this._tasks.slice(index + 1)];
 
         this._callHandlers(this._dataChangeHandlers);
-
-        return true
     }
 
-    set dataChangeHandlers(handler) {
+    removeTask(id) {
+        this._tasks = this._tasks.filter(task => task.id !== id);
+
+        this._callHandlers(this._dataChangeHandlers);
+    }
+
+    addTask(task) {
+        this._tasks = [task, ...this._tasks];
+
+        this._callHandlers(this._dataChangeHandlers);
+    }
+
+    set dataChangeHandler(handler) {
         this._dataChangeHandlers.push(handler);
     }
 
-    set filterChangeHandlers(handler) {
+    set filterChangeHandler(handler) {
         this._filterChangeHandlers.push(handler);
     }
 

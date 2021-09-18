@@ -1,11 +1,12 @@
 import { SiteMenu } from './components/site-menu';
-import { Filter } from './components/filter';
 import { Board } from './components/board';
 
+import { TasksModel } from './model/tasks';
+
 import { BoardController } from './controller/board';
+import { FilterController } from './controller/filter';
 
 import { generateTasks } from './mock/task';
-import { filterMock } from './mock/filter';
 
 import { renderComponent } from './utils';
 
@@ -15,10 +16,16 @@ const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = siteMainElement.querySelector('.main__control');
 
 renderComponent(siteHeaderElement, new SiteMenu());
-renderComponent(siteMainElement, new Filter(filterMock));
+
+const tasksModel = new TasksModel();
+tasksModel.tasks = generateTasks(TASK_COUNT);
+
+// const filterComponent = new Filter(filterMock);
+const filterController = new FilterController(siteMainElement, tasksModel);
+// renderComponent(siteMainElement, filterComponent);
+filterController.render();
 
 const boardComponent = new Board();
-const boardController = new BoardController(boardComponent);
-
+const boardController = new BoardController(boardComponent, tasksModel);
 renderComponent(siteMainElement, boardComponent);
-boardController.render(generateTasks(TASK_COUNT));
+boardController.render();

@@ -1,12 +1,14 @@
 import { Task } from '../components/task';
 import { TaskEditor } from '../components/task-editor';
 
-import { renderComponent, replaceComponent } from '../utils';
+import { renderComponent, replaceComponent, removeComponent } from '../utils';
 
-const TypeTask = {
+const Mode = {
     DEFAULT: 'DEFAULT',
     EDITOR: 'EDITOR',
 }
+
+const EmptyTask = {}
 
 class TaskController {
     constructor(container, onDataChange, onViewChange) {
@@ -18,7 +20,7 @@ class TaskController {
         this._taskComponent = null;
         this._taskEditorComponent = null;
 
-        this._typeTask = TypeTask.DEFAULT;
+        this._mode = Mode.DEFAULT;
 
         this._onArchiveButtonClick = this._onArchiveButtonClick.bind(this);
         this._onEditButtonClick = this._onEditButtonClick.bind(this);
@@ -41,8 +43,15 @@ class TaskController {
         this._setEvents();
     }
 
-    rerender(task) {
+    rerender() {
         this._taskEditorComponent.rerender();
+    }
+
+    destroy() {
+        removeComponent(this._taskComponent);
+        removeComponent(this._taskEditorComponent);
+
+        document.removeEventListener('keydown', this._onEscKeyDown);
     }
 
     _setEvents() {
@@ -96,7 +105,7 @@ class TaskController {
     }
 
     showEditor() {
-        this._typeTask = TypeTask.EDITOR;
+        this._mode = Mode.EDITOR;
 
         replaceComponent(this._taskEditorComponent, this._taskComponent);
 
@@ -104,7 +113,7 @@ class TaskController {
     }
 
     hiddenEditor() {
-        this._typeTask = TypeTask.DEFAULT;
+        this._mode = Mode.DEFAULT;
 
         replaceComponent(this._taskComponent, this._taskEditorComponent);
 
@@ -118,4 +127,6 @@ class TaskController {
 
 export {
     TaskController,
+    Mode,
+    EmptyTask
 }
