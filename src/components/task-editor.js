@@ -1,3 +1,5 @@
+import { encode } from 'he';
+
 import { SmartComponent } from './smart-component';
 
 import { MONTH_NAMES, COLORS } from '../const';
@@ -65,7 +67,7 @@ const createTaskEditTemplate = (task) => {
               class="card__text"
               placeholder="Start typing your text here..."
               name="text"
-            >${text}</textarea>
+            >${encode(text)}</textarea>
           </label>
         </div>
 
