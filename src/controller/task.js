@@ -3,7 +3,7 @@ import { TaskEditor } from '../components/task-editor';
 
 import { renderComponent, replaceComponent, removeComponent } from '../utils';
 
-const Mode = {
+const MODE = {
     DEFAULT: 'DEFAULT',
     EDITOR: 'EDITOR',
 }
@@ -20,7 +20,7 @@ class TaskController {
         this._taskComponent = null;
         this._taskEditorComponent = null;
 
-        this._mode = Mode.DEFAULT;
+        this._mode = MODE.DEFAULT;
 
         this._onArchiveButtonClick = this._onArchiveButtonClick.bind(this);
         this._onEditButtonClick = this._onEditButtonClick.bind(this);
@@ -44,7 +44,9 @@ class TaskController {
     }
 
     rerender() {
-        this._taskEditorComponent.rerender();
+        if (this._mode === MODE.EDITOR) {
+            this._taskEditorComponent.rerender();
+        }
     }
 
     destroy() {
@@ -105,7 +107,7 @@ class TaskController {
     }
 
     showEditor() {
-        this._mode = Mode.EDITOR;
+        this._mode = MODE.EDITOR;
 
         replaceComponent(this._taskEditorComponent, this._taskComponent);
 
@@ -113,7 +115,7 @@ class TaskController {
     }
 
     hiddenEditor() {
-        this._mode = Mode.DEFAULT;
+        this._mode = MODE.DEFAULT;
 
         replaceComponent(this._taskComponent, this._taskEditorComponent);
 
@@ -127,6 +129,5 @@ class TaskController {
 
 export {
     TaskController,
-    Mode,
     EmptyTask
 }

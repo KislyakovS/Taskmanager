@@ -1,7 +1,7 @@
 import { Sort, SortedTasks } from '../components/sort';
 import { LoadMoreButton } from '../components/load-more-button';
 
-import { TaskController, Mode as TaskControllerMode, EmptyTask } from './task';
+import { TaskController } from './task';
 
 import { renderComponent } from '../utils';
 
@@ -24,7 +24,7 @@ class BoardController {
         this._onViewChange = this._onViewChange.bind(this);
 
         this._tasksModel.filterChangeHandler = this._onFilterChange.bind(this);
-        this._tasksModel.dataChangeHandler = this._renderTasksList.bind(this);
+        this._tasksModel.dataChangeHandler = this._rerenderTasksList.bind(this);
     }
 
     render() {
@@ -55,6 +55,10 @@ class BoardController {
 
             return taskController;
         });
+    }
+
+    _rerenderTasksList() {
+        this._taskControllers.forEach(task => task.rerender());
     }
 
     _setEvents() {
