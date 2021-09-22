@@ -29,9 +29,12 @@ const FILTER_TYPE = {
     ARCHIVE: 'ARCHIVE'
 }
 
+const FETCH_URL = 'https://11.ecmascript.pages.academy/task-manager';
+
 export {
     POSITION_INSERT,
     MONTH_NAMES,
     COLORS,
-    FILTER_TYPE
+    FILTER_TYPE,
+    FETCH_URL
 }
