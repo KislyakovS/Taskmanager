@@ -23,3 +23,5 @@ class API {
         }).then(result => result.json());
     }
 }
+
+export { API };
