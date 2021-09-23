@@ -20,12 +20,11 @@ renderComponent(siteHeaderElement, new SiteMenu());
 const tasksModel = new TasksModel();
 tasksModel.tasks = generateTasks(TASK_COUNT);
 
-// const filterComponent = new Filter(filterMock);
 const filterController = new FilterController(siteMainElement, tasksModel);
-// renderComponent(siteMainElement, filterComponent);
 filterController.render();
 
 const boardComponent = new Board();
 const boardController = new BoardController(boardComponent, tasksModel);
 renderComponent(siteMainElement, boardComponent);
 boardController.render();
+
