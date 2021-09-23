@@ -1,3 +1,5 @@
+import { Task } from './model/task';
+
 import { FETCH_URL } from './const';
 
 class API {
@@ -20,7 +22,9 @@ class API {
     getTasks() {
         return fetch(`${FETCH_URL}/tasks`, {
             headers: this._headers
-        }).then(result => result.json());
+        })
+            .then(result => result.json())
+            .then(Task.parseTasks);
     }
 }
 
