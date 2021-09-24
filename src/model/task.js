@@ -16,6 +16,18 @@ class Task {
     static parseTasks(tasks) {
         return tasks.map(Task.parseTask);
     }
+
+    toRAW() {
+        return {
+            id: this.id,
+            description: this.text,
+            due_date: this.dueDate,
+            repeating_days: this.repeatingDays,
+            color: this.color,
+            is_favorite: this.isFavorite,
+            is_archived: this.isArchive
+        }
+    }
 }
 
 export {
