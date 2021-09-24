@@ -26,6 +26,14 @@ class API {
             .then(result => result.json())
             .then(Task.parseTasks);
     }
+
+    updateTask(id, data) {
+        return fetch(`${FETCH_URL}/tasks/${id}`, {
+            method: 'PUT',
+            headers: this._headers,
+            body: JSON.stringify(data)
+        }).then(response => response.json())
+    }
 }
 
 export { API };
