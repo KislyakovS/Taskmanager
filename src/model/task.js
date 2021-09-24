@@ -21,7 +21,7 @@ class Task {
         return {
             id: this.id,
             description: this.text,
-            due_date: this.dueDate,
+            due_date: this.dueDate ? this.dueDate.toISOString() : null,
             repeating_days: this.repeatingDays,
             color: this.color,
             is_favorite: this.isFavorite,

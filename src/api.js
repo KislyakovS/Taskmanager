@@ -32,7 +32,9 @@ class API {
             method: 'PUT',
             headers: this._headers,
             body: JSON.stringify(task.toRAW())
-        }).then(response => response.json())
+        })
+            .then(response => response.json())
+            .then(Task.parseTask)
     }
 }
 
