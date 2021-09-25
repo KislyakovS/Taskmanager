@@ -35,3 +35,7 @@ api.getTasks()
         console.error(error);
         document.body.innerHTML = 'Ошибка при загрузке данных';
     });
+
+window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js');
+});
